@@ -1,1 +1,103 @@
+#include <stdio.h>
 
+struct poly {
+    int coeff;
+    int expo;
+};
+
+int main() {
+    struct poly p1[10], p2[10], p3[20];
+    int t1, t2, t3;
+    int i, j, k;
+
+    /* Read first polynomial */
+    printf("Enter the total number of terms in the first polynomial: ");
+    scanf("%d", &t1);
+
+    printf("Enter coefficient and exponent in descending order:\n");
+    for(i = 0; i < t1; i++) {
+        printf("Coefficient %d: ", i + 1);
+        scanf("%d", &p1[i].coeff);
+
+        printf("Exponent %d: ", i + 1);
+        scanf("%d", &p1[i].expo);
+    }
+
+    /* Display first polynomial */
+    printf("\nFirst Polynomial: ");
+    for(i = 0; i < t1; i++) {
+        printf("%d(x^%d)", p1[i].coeff, p1[i].expo);
+        if(i < t1 - 1)
+            printf(" + ");
+    }
+
+    /* Read second polynomial */
+    printf("\n\nEnter the total number of terms in the second polynomial: ");
+    scanf("%d", &t2);
+
+    printf("Enter coefficient and exponent in descending order:\n");
+    for(i = 0; i < t2; i++) {
+        printf("Coefficient %d: ", i + 1);
+        scanf("%d", &p2[i].coeff);
+
+        printf("Exponent %d: ", i + 1);
+        scanf("%d", &p2[i].expo);
+    }
+
+    /* Display second polynomial */
+    printf("\nSecond Polynomial: ");
+    for(i = 0; i < t2; i++) {
+        printf("%d(x^%d)", p2[i].coeff, p2[i].expo);
+        if(i < t2 - 1)
+            printf(" + ");
+    }
+
+    /* Addition of polynomials */
+    i = j = k = 0;
+
+    while(i < t1 && j < t2) {
+        if(p1[i].expo == p2[j].expo) {
+            p3[k].coeff = p1[i].coeff + p2[j].coeff;
+            p3[k].expo = p1[i].expo;
+            i++;
+            j++;
+            k++;
+        }
+        else if(p1[i].expo > p2[j].expo) {
+            p3[k] = p1[i];
+            i++;
+            k++;
+        }
+        else {
+            p3[k] = p2[j];
+            j++;
+            k++;
+        }
+    }
+
+    while(i < t1) {
+        p3[k] = p1[i];
+        i++;
+        k++;
+    }
+
+    while(j < t2) {
+        p3[k] = p2[j];
+        j++;
+        k++;
+    }
+
+    t3 = k;
+
+    /* Display Result */
+    printf("\n\nResultant Polynomial: ");
+    for(i = 0; i < t3; i++) {
+        printf("%d(x^%d)", p3[i].coeff, p3[i].expo);
+        if(i < t3 - 1)
+            printf(" + ");
+    }
+
+    printf("\n");
+
+    return 0;
+}
