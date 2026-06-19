@@ -1,1 +1,83 @@
 
+#include <stdio.h>
+
+/* Structure to store row, column and value */
+struct Term {
+    int row;
+    int col;
+    int value;
+};
+
+int main() {
+    int rows, cols, n;
+
+    /* Read matrix size and number of non-zero elements */
+    printf("Enter number of rows, columns, and non-zero elements: ");
+    scanf("%d %d %d", &rows, &cols, &n);
+
+    struct Term sparse[50], transposed[50];
+
+    /* Store metadata in first row */
+    sparse[0].row = rows;
+    sparse[0].col = cols;
+    sparse[0].value = n;
+
+    /* Read non-zero elements */
+    printf("Enter the non-zero elements (row column value):\n");
+    for (int i = 1; i <= n; i++) {
+        scanf("%d %d %d",
+              &sparse[i].row,
+              &sparse[i].col,
+              &sparse[i].value);
+    }
+
+    /* Display original sparse matrix representation */
+    printf("\nOriginal Sparse Matrix Representation:\n");
+    printf("Row Col Value\n");
+
+    for (int i = 0; i <= n; i++) {
+        printf("%3d %4d %5d\n",
+               sparse[i].row,
+               sparse[i].col,
+               sparse[i].value);
+    }
+
+    /* Store metadata for transposed matrix */
+    transposed[0].row = sparse[0].col;    // rows become columns
+    transposed[0].col = sparse[0].row;    // columns become rows
+    transposed[0].value = sparse[0].value;
+
+    int k = 1;   // Index for transposed matrix
+
+    /* Find transpose */
+    for (int i = 0; i < sparse[0].col; i++) {
+
+        /* Check each non-zero element */
+        for (int j = 1; j <= n; j++) {
+
+            /* If column number matches */
+            if (sparse[j].col == i) {
+
+                /* Swap row and column */
+                transposed[k].row = sparse[j].col;
+                transposed[k].col = sparse[j].row;
+                transposed[k].value = sparse[j].value;
+
+                k++;
+            }
+        }
+    }
+
+    /* Display transposed sparse matrix */
+    printf("\nTransposed Sparse Matrix Representation:\n");
+    printf("Row Col Value\n");
+
+    for (int i = 0; i <= n; i++) {
+        printf("%3d %4d %5d\n",
+               transposed[i].row,
+               transposed[i].col,
+               transposed[i].value);
+    }
+
+    return 0;
+}
